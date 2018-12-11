@@ -1,6 +1,14 @@
-import { Component, OnInit, OnDestroy, AfterViewInit,
-  ViewChild, HostListener, ViewEncapsulation,
-  ElementRef, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  ViewChild,
+  HostListener,
+  ViewEncapsulation,
+  ElementRef,
+  ChangeDetectorRef
+} from '@angular/core';
 
 import { detectIE } from './helpers';
 
@@ -12,7 +20,7 @@ import { ColorPickerService } from './color-picker.service';
 @Component({
   selector: 'color-picker',
   templateUrl: '../../dist/lib/color-picker.component.html',
-  styleUrls: [ '../../dist/lib/color-picker.component.css' ],
+  styleUrls: ['../../dist/lib/color-picker.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
@@ -39,11 +47,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
   private dialogArrowSize: number = 10;
   private dialogArrowOffset: number = 15;
 
-  private dialogInputFields: ColorFormats[] = [
-    ColorFormats.HEX,
-    ColorFormats.RGBA,
-    ColorFormats.HSLA
-  ];
+  private dialogInputFields: ColorFormats[] = [ColorFormats.HEX, ColorFormats.RGBA, ColorFormats.HSLA];
 
   private useRootViewContainer: boolean = false;
 
@@ -111,13 +115,15 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('hueSlider') hueSlider: ElementRef;
   @ViewChild('alphaSlider') alphaSlider: ElementRef;
 
-  @HostListener('document:keyup.esc', ['$event']) handleEsc(event: any): void {
+  @HostListener('document:keyup.esc', ['$event'])
+  handleEsc(event: any): void {
     if (this.show && this.cpDialogDisplay === 'popup') {
       this.onCancelColor(event);
     }
   }
 
-  @HostListener('document:keyup.enter', ['$event']) handleEnter(event: any): void {
+  @HostListener('document:keyup.enter', ['$event'])
+  handleEnter(event: any): void {
     if (this.show && this.cpDialogDisplay === 'popup') {
       this.onAcceptColor(event);
     }
@@ -141,8 +147,12 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
       this.format = ColorFormats.HEX;
     }
 
-    this.listenerMouseDown = (event: any) => { this.onMouseDown(event); };
-    this.listenerResize = () => { this.onResize(); };
+    this.listenerMouseDown = (event: any) => {
+      this.onMouseDown(event);
+    };
+    this.listenerResize = () => {
+      this.onResize();
+    };
 
     this.openDialog(this.initialColor, false);
   }
@@ -152,7 +162,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.cpWidth !== 230 || this.cpDialogDisplay === 'inline') {
+    if (this.cpWidth !== 230 || this.cpDialogDisplay === 'inline') {
       const hueWidth = this.hueSlider.nativeElement.offsetWidth || 140;
       const alphaWidth = this.alphaSlider.nativeElement.offsetWidth || 140;
 
@@ -186,23 +196,45 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.closeColorPicker();
   }
 
-  public setupDialog(instance: any, elementRef: ElementRef, color: any,
-    cpWidth: string, cpHeight: string, cpDialogDisplay: string, cpFallbackColor: string,
-    cpColorMode: string, cpAlphaChannel: AlphaChannel, cpOutputFormat: OutputFormat,
-    cpDisableInput: boolean, cpIgnoredElements: any, cpSaveClickOutside: boolean,
-    cpUseRootViewContainer: boolean, cpPosition: string, cpPositionOffset: string,
-    cpPositionRelativeToArrow: boolean, cpPresetLabel: string, cpPresetColors: string[],
-    cpMaxPresetColorsLength: number, cpPresetEmptyMessage: string, cpPresetEmptyMessageClass: string,
-    cpOKButton: boolean, cpOKButtonClass: string, cpOKButtonText: string,
-    cpCancelButton: boolean, cpCancelButtonClass: string, cpCancelButtonText: string,
-    cpAddColorButton: boolean, cpAddColorButtonClass: string, cpAddColorButtonText: string,
-    cpRemoveColorButtonClass: string): void
-  {
+  public setupDialog(
+    instance: any,
+    elementRef: ElementRef,
+    color: any,
+    cpWidth: string,
+    cpHeight: string,
+    cpDialogDisplay: string,
+    cpFallbackColor: string,
+    cpColorMode: string,
+    cpAlphaChannel: AlphaChannel,
+    cpOutputFormat: OutputFormat,
+    cpDisableInput: boolean,
+    cpIgnoredElements: any,
+    cpSaveClickOutside: boolean,
+    cpUseRootViewContainer: boolean,
+    cpPosition: string,
+    cpPositionOffset: string,
+    cpPositionRelativeToArrow: boolean,
+    cpPresetLabel: string,
+    cpPresetColors: string[],
+    cpMaxPresetColorsLength: number,
+    cpPresetEmptyMessage: string,
+    cpPresetEmptyMessageClass: string,
+    cpOKButton: boolean,
+    cpOKButtonClass: string,
+    cpOKButtonText: string,
+    cpCancelButton: boolean,
+    cpCancelButtonClass: string,
+    cpCancelButtonText: string,
+    cpAddColorButton: boolean,
+    cpAddColorButtonClass: string,
+    cpAddColorButtonText: string,
+    cpRemoveColorButtonClass: string
+  ): void {
     this.setInitialColor(color);
 
     this.setColorMode(cpColorMode);
 
-    this.isIE10 = (detectIE() === 10);
+    this.isIE10 = detectIE() === 10;
 
     this.directiveInstance = instance;
     this.directiveElementRef = elementRef;
@@ -254,9 +286,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
       this.dialogArrowOffset = 0;
     }
 
-    if (cpOutputFormat === 'hex' &&
-        cpAlphaChannel !== 'always' && cpAlphaChannel !== 'forced')
-    {
+    if (cpOutputFormat === 'hex' && cpAlphaChannel !== 'always' && cpAlphaChannel !== 'forced') {
       this.cpAlphaChannel = 'disabled';
     }
   }
@@ -335,19 +365,21 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onMouseDown(event: MouseEvent): void {
-    if (!this.isIE10 && this.cpDialogDisplay === 'popup' &&
-        event.target !== this.directiveElementRef.nativeElement &&
-        !this.isDescendant(this.elRef.nativeElement, event.target) &&
-        !this.isDescendant(this.directiveElementRef.nativeElement, event.target) &&
-        this.cpIgnoredElements.filter((item: any) => item === event.target).length === 0)
-    {
+    if (
+      !this.isIE10 &&
+      this.cpDialogDisplay === 'popup' &&
+      event.target !== this.directiveElementRef.nativeElement &&
+      !this.isDescendant(this.elRef.nativeElement, event.target) &&
+      !this.isDescendant(this.directiveElementRef.nativeElement, event.target) &&
+      this.cpIgnoredElements.filter((item: any) => item === event.target).length === 0
+    ) {
       if (!this.cpSaveClickOutside) {
         this.setColorFromString(this.initialColor, false);
 
         this.directiveInstance.colorChanged(this.initialColor);
       }
 
-      this.closeColorPicker();
+      // this.closeColorPicker();
     }
   }
 
@@ -380,13 +412,14 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
   public onFormatToggle(change: number): void {
     const availableFormats = this.dialogInputFields.length;
 
-    const nextFormat = (((this.dialogInputFields.indexOf(this.format) + change) %
-      availableFormats) + availableFormats) % availableFormats;
+    const nextFormat =
+      (((this.dialogInputFields.indexOf(this.format) + change) % availableFormats) + availableFormats) %
+      availableFormats;
 
     this.format = this.dialogInputFields[nextFormat];
   }
 
-  public onColorChange(value: { s: number, v: number, rgX: number, rgY: number }): void {
+  public onColorChange(value: { s: number; v: number; rgX: number; rgY: number }): void {
     this.hsva.s = value.s / value.rgX;
     this.hsva.v = value.v / value.rgY;
 
@@ -405,7 +438,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public onHueChange(value: { v: number, rgX: number }): void {
+  public onHueChange(value: { v: number; rgX: number }): void {
     this.hsva.h = value.v / value.rgX;
     this.sliderH = this.hsva.h;
 
@@ -418,7 +451,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public onValueChange(value: { v: number, rgX: number }): void {
+  public onValueChange(value: { v: number; rgX: number }): void {
     this.hsva.v = value.v / value.rgX;
 
     this.updateColorPicker();
@@ -430,7 +463,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public onAlphaChange(value: { v: number, rgX: number }): void {
+  public onAlphaChange(value: { v: number; rgX: number }): void {
     this.hsva.a = value.v / value.rgX;
 
     this.updateColorPicker();
@@ -458,10 +491,13 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
 
       if (validHex.test(value)) {
         if (value.length < 5) {
-          value = '#' + value.substring(1)
-            .split('')
-            .map(c => c + c)
-            .join('');
+          value =
+            '#' +
+            value
+              .substring(1)
+              .split('')
+              .map(c => c + c)
+              .join('');
         }
 
         if (this.cpAlphaChannel === 'forced') {
@@ -479,7 +515,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  public onRedInput(value: { v: number, rg: number }): void {
+  public onRedInput(value: { v: number; rg: number }): void {
     const rgba = this.service.hsvaToRgba(this.hsva);
 
     rgba.r = value.v / value.rg;
@@ -497,7 +533,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public onBlueInput(value: { v: number, rg: number }): void {
+  public onBlueInput(value: { v: number; rg: number }): void {
     const rgba = this.service.hsvaToRgba(this.hsva);
 
     rgba.b = value.v / value.rg;
@@ -515,7 +551,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public onGreenInput(value: { v: number, rg: number }): void {
+  public onGreenInput(value: { v: number; rg: number }): void {
     const rgba = this.service.hsvaToRgba(this.hsva);
 
     rgba.g = value.v / value.rg;
@@ -533,7 +569,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public onHueInput(value: { v: number, rg: number }) {
+  public onHueInput(value: { v: number; rg: number }) {
     this.hsva.h = value.v / value.rg;
 
     this.sliderH = this.hsva.h;
@@ -547,7 +583,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public onValueInput(value: { v: number, rg: number }): void {
+  public onValueInput(value: { v: number; rg: number }): void {
     this.hsva.v = value.v / value.rg;
 
     this.updateColorPicker();
@@ -559,7 +595,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public onAlphaInput(value: { v: number, rg: number }): void {
+  public onAlphaInput(value: { v: number; rg: number }): void {
     this.hsva.a = value.v / value.rg;
 
     this.updateColorPicker();
@@ -571,7 +607,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public onLightnessInput(value: { v: number, rg: number }): void {
+  public onLightnessInput(value: { v: number; rg: number }): void {
     const hsla = this.service.hsva2hsla(this.hsva);
 
     hsla.l = value.v / value.rg;
@@ -589,7 +625,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public onSaturationInput(value: { v: number, rg: number }): void {
+  public onSaturationInput(value: { v: number; rg: number }): void {
     const hsla = this.service.hsva2hsla(this.hsva);
 
     hsla.s = value.v / value.rg;
@@ -610,7 +646,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
   public onAddPresetColor(event: any, value: string): void {
     event.stopPropagation();
 
-    if (!this.cpPresetColors.filter((color) => (color === value)).length) {
+    if (!this.cpPresetColors.filter(color => color === value).length) {
       this.cpPresetColors = this.cpPresetColors.concat(value);
 
       this.directiveInstance.presetColorsChanged(this.cpPresetColors);
@@ -620,7 +656,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
   public onRemovePresetColor(event: any, value: string): void {
     event.stopPropagation();
 
-    this.cpPresetColors = this.cpPresetColors.filter((color) => (color !== value));
+    this.cpPresetColors = this.cpPresetColors.filter(color => color !== value);
 
     this.directiveInstance.presetColorsChanged(this.cpPresetColors);
   }
@@ -682,8 +718,12 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
       const hue = this.service.denormalizeRGBA(this.service.hsvaToRgba(new Hsva(this.sliderH || this.hsva.h, 1, 1, 1)));
 
       if (update) {
-        this.hslaText = new Hsla(Math.round((hsla.h) * 360), Math.round(hsla.s * 100), Math.round(hsla.l * 100),
-          Math.round(hsla.a * 100) / 100);
+        this.hslaText = new Hsla(
+          Math.round(hsla.h * 360),
+          Math.round(hsla.s * 100),
+          Math.round(hsla.l * 100),
+          Math.round(hsla.a * 100) / 100
+        );
 
         this.rgbaText = new Rgba(rgba.r, rgba.g, rgba.b, Math.round(rgba.a * 100) / 100);
 
@@ -724,9 +764,12 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.cpDialogDisplay === 'inline') {
       this.position = 'relative';
     } else {
-      let position = 'static', transform = '', style;
+      let position = 'static',
+        transform = '',
+        style;
 
-      let parentNode: any = null, transformNode: any = null;
+      let parentNode: any = null,
+        transformNode: any = null;
 
       let node = this.directiveElementRef.nativeElement.parentNode;
 
@@ -754,11 +797,12 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
         node = node.parentNode;
       }
 
-      const boxDirective = this.createDialogBox(this.directiveElementRef.nativeElement, (position !== 'fixed'));
+      const boxDirective = this.createDialogBox(this.directiveElementRef.nativeElement, position !== 'fixed');
 
-      if (this.useRootViewContainer || (position === 'fixed' &&
-         (!parentNode || parentNode instanceof HTMLUnknownElement)))
-      {
+      if (
+        this.useRootViewContainer ||
+        (position === 'fixed' && (!parentNode || parentNode instanceof HTMLUnknownElement))
+      ) {
         this.top = boxDirective.top;
         this.left = boxDirective.left;
       } else {
@@ -766,7 +810,7 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
           parentNode = node;
         }
 
-        const boxParent = this.createDialogBox(parentNode, (position !== 'fixed'));
+        const boxParent = this.createDialogBox(parentNode, position !== 'fixed');
 
         this.top = boxDirective.top - boxParent.top;
         this.left = boxDirective.left - boxParent.left;
@@ -777,18 +821,18 @@ export class ColorPickerComponent implements OnInit, OnDestroy, AfterViewInit {
       }
 
       if (this.cpPosition === 'left') {
-        this.top += boxDirective.height * this.cpPositionOffset / 100 - this.dialogArrowOffset;
+        this.top += (boxDirective.height * this.cpPositionOffset) / 100 - this.dialogArrowOffset;
         this.left -= this.cpWidth + this.dialogArrowSize - 2;
       } else if (this.cpPosition === 'top') {
         this.arrowTop = dialogHeight - 1;
 
         this.top -= dialogHeight + this.dialogArrowSize;
-        this.left += this.cpPositionOffset / 100 * boxDirective.width - this.dialogArrowOffset;
+        this.left += (this.cpPositionOffset / 100) * boxDirective.width - this.dialogArrowOffset;
       } else if (this.cpPosition === 'bottom') {
         this.top += boxDirective.height + this.dialogArrowSize;
-        this.left += this.cpPositionOffset / 100 * boxDirective.width - this.dialogArrowOffset;
+        this.left += (this.cpPositionOffset / 100) * boxDirective.width - this.dialogArrowOffset;
       } else {
-        this.top += boxDirective.height * this.cpPositionOffset / 100 - this.dialogArrowOffset;
+        this.top += (boxDirective.height * this.cpPositionOffset) / 100 - this.dialogArrowOffset;
         this.left += boxDirective.width + this.dialogArrowSize - 2;
       }
     }
